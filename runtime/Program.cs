@@ -68,38 +68,3 @@ public static class Program
         Console.WriteLine("ROOTS");
         foreach (var id in graph.Roots())
         {
-            var a = graph.Artifacts[id];
-            Console.WriteLine($"  {id}  [{a.Kind}]  {a.Label}");
-        }
-        Console.WriteLine("LEAVES");
-        foreach (var id in graph.Leaves())
-        {
-            var a = graph.Artifacts[id];
-            Console.WriteLine($"  {id}  [{a.Kind}]  {a.Label}");
-        }
-        return 0;
-    }
-
-    private static int RunCoverage(LineageGraph graph)
-    {
-        var cov = Coverage.Compute(graph);
-        Console.WriteLine($"coverage score : {cov.CoverageScore:F4} (grade {Coverage.Grade(cov.CoverageScore)})");
-        Console.WriteLine($"connected      : {cov.ConnectedArtifacts}/{cov.TotalArtifacts}");
-        Console.WriteLine($"verified       : {cov.VerifiedArtifacts}/{cov.TotalArtifacts}");
-        Console.WriteLine($"rooted         : {cov.RootedArtifacts}/{cov.TotalArtifacts}");
-        if (cov.OrphanIds.Count > 0)
-            Console.WriteLine($"orphans        : {string.Join(", ", cov.OrphanIds)}");
-        if (cov.DanglingIds.Count > 0)
-            Console.WriteLine($"dangling       : {string.Join(", ", cov.DanglingIds)}");
-        return 0;
-    }
-
-    private static int RunDigest(LineageGraph graph)
-    {
-        Console.WriteLine(Coverage.DigestGraph(graph));
-        return 0;
-    }
-
-    private static int RunDossier(LineageGraph graph)
-    {
-        var cov = Coverage.Compute(graph);
