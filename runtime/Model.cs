@@ -26,3 +26,31 @@ public sealed record Artifact
     [JsonPropertyName("created_at")]
     public string? CreatedAt { get; init; }
 
+    [JsonIgnore]
+    public bool IsVerified => !string.IsNullOrEmpty(ContentHash);
+}
+
+/// <summary>
+/// A directed transformation edge. Mirrors the Python
+/// <c>artifactlens.model.Transformation</c> value object.
+/// </summary>
+public sealed record Transformation
+{
+    [JsonPropertyName("id")]
+    public string Id { get; init; } = string.Empty;
+
+    [JsonPropertyName("op")]
+    public string Op { get; init; } = "derive";
+
+    [JsonPropertyName("inputs")]
+    public List<string> Inputs { get; init; } = new();
+
+    [JsonPropertyName("outputs")]
+    public List<string> Outputs { get; init; } = new();
+
+    [JsonPropertyName("agent")]
+    public string? Agent { get; init; }
+
+    [JsonPropertyName("confidence")]
+    public double? Confidence { get; init; }
+
