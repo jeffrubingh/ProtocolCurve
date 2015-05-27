@@ -33,3 +33,73 @@ def build_dossier(graph: LineageGraph) -> Dossier:
     for leaf in leaves:
         chain = ancestry(graph, leaf)
         lineages[leaf] = chain + (leaf,)
+
+    op_hist = Counter(
+        graph.transformations[t].op for t in graph.transformation_ids
+    )
+    kind_hist = Counter(
+        graph.artifacts[a].kind for a in graph.artifact_ids
+    )
+
+    return Dossier(
+        graph_digest=digest_graph(graph),
+        roots=roots,
+        leaves=leaves,
+        coverage=coverage,
+        lineages=lineages,
+        op_histogram=dict(op_hist),
+        kind_histogram=dict(kind_hist),
+    )
+
+
+def render_dossier(
+    dossier: Dossier,
+    graph: LineageGraph,
+    *,
+    fmt: str = "text",
+) -> str:
+    """Render a dossier as ``"json"`` or ``"text"``.
+
+    JSON output is deterministic (sorted keys, fixed separators) and suitable
+    for diffing across runs. Text output is a sectioned report for terminals.
+    """
+    if fmt == "json":
+        return json.dumps(dossier.to_dict(), indent=2, sort_keys=True)
+    if fmt == "text":
+        return _render_text(dossier, graph)
+    raise ValueError(f"unsupported format: {fmt!r}")
+
+
+# --------------------------------------------------------------------------- #
+# Text rendering
+# --------------------------------------------------------------------------- #
+
+_RULE = "=" * 72
+_SUBRULE = "-" * 72
+
+
+def _render_text(dossier: Dossier, graph: LineageGraph) -> str:
+    cov = dossier.coverage
+    lines = []
+    lines.append(_RULE)
+    lines.append("ARTIFACTLENS PROVENANCE DOSSIER")
+    lines.append(_RULE)
+    lines.append(f"graph digest : {dossier.graph_digest}")
+    lines.append(f"artifacts    : {cov.total_artifacts}")
+    lines.append(f"roots        : {len(dossier.roots)}")
+    lines.append(f"leaves       : {len(dossier.leaves)}")
+    lines.append("")
+
+    lines.append("COVERAGE")
+    lines.append(_SUBRULE)
+    lines.append(
+        f"score        : {cov.coverage_score:.4f}  (grade {grade(cov.coverage_score)})"
+    )
+    lines.append(f"connected    : {cov.connected_artifacts}/{cov.total_artifacts}")
+    lines.append(f"verified     : {cov.verified_artifacts}/{cov.total_artifacts}")
+    lines.append(f"rooted       : {cov.rooted_artifacts}/{cov.total_artifacts}")
+    if cov.orphan_ids:
+        lines.append(f"orphans      : {', '.join(cov.orphan_ids)}")
+    if cov.dangling_ids:
+        lines.append(f"dangling     : {', '.join(cov.dangling_ids)}")
+    lines.append("")
