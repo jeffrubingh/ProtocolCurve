@@ -42,3 +42,48 @@ def build_graph(
         graph can still be explored.
 
     Returns
+    -------
+    LineageGraph
+        A fully indexed, cycle-free graph.
+    """
+    art_map: Dict[str, Artifact] = {}
+    for art in artifacts:
+        norm = art.normalised()
+        if norm.id in art_map:
+            raise GraphError(f"duplicate artifact id: {norm.id!r}")
+        art_map[norm.id] = norm
+
+    tr_map: Dict[str, Transformation] = {}
+    for tr in transformations:
+        norm = tr.normalised()
+        if norm.id in tr_map:
+            raise GraphError(f"duplicate transformation id: {norm.id!r}")
+        tr_map[norm.id] = norm
+
+    # Validate / synthesise endpoints.
+    for tr in tr_map.values():
+        for endpoint in (*tr.inputs, *tr.outputs):
+            if endpoint not in art_map:
+                if strict:
+                    raise GraphError(
+                        f"transformation {tr.id!r} references unknown "
+                        f"artifact {endpoint!r}"
+                    )
+                art_map[endpoint] = Artifact(id=endpoint).normalised()
+
+    producers: Dict[str, List[str]] = {aid: [] for aid in art_map}
+    consumers: Dict[str, List[str]] = {aid: [] for aid in art_map}
+    for tid in sorted(tr_map):
+        tr = tr_map[tid]
+        for out in tr.outputs:
+            producers[out].append(tid)
+        for inp in tr.inputs:
+            consumers[inp].append(tid)
+
+    graph = LineageGraph(
+        artifacts=art_map,
+        transformations=tr_map,
+        producers={k: tuple(v) for k, v in producers.items()},
+        consumers={k: tuple(v) for k, v in consumers.items()},
+    )
+    _assert_acyclic(graph)
