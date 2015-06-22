@@ -9,3 +9,9 @@
       "ArtifactLens.Runtime/1.0.0": {
         "runtime": {
           "ArtifactLens.Runtime.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ArtifactLens.Runtime/1.0.0": {
