@@ -68,38 +68,3 @@ def render_dossier(
     if fmt == "text":
         return _render_text(dossier, graph)
     raise ValueError(f"unsupported format: {fmt!r}")
-
-
-# --------------------------------------------------------------------------- #
-# Text rendering
-# --------------------------------------------------------------------------- #
-
-_RULE = "=" * 72
-_SUBRULE = "-" * 72
-
-
-def _render_text(dossier: Dossier, graph: LineageGraph) -> str:
-    cov = dossier.coverage
-    lines = []
-    lines.append(_RULE)
-    lines.append("ARTIFACTLENS PROVENANCE DOSSIER")
-    lines.append(_RULE)
-    lines.append(f"graph digest : {dossier.graph_digest}")
-    lines.append(f"artifacts    : {cov.total_artifacts}")
-    lines.append(f"roots        : {len(dossier.roots)}")
-    lines.append(f"leaves       : {len(dossier.leaves)}")
-    lines.append("")
-
-    lines.append("COVERAGE")
-    lines.append(_SUBRULE)
-    lines.append(
-        f"score        : {cov.coverage_score:.4f}  (grade {grade(cov.coverage_score)})"
-    )
-    lines.append(f"connected    : {cov.connected_artifacts}/{cov.total_artifacts}")
-    lines.append(f"verified     : {cov.verified_artifacts}/{cov.total_artifacts}")
-    lines.append(f"rooted       : {cov.rooted_artifacts}/{cov.total_artifacts}")
-    if cov.orphan_ids:
-        lines.append(f"orphans      : {', '.join(cov.orphan_ids)}")
-    if cov.dangling_ids:
-        lines.append(f"dangling     : {', '.join(cov.dangling_ids)}")
-    lines.append("")
