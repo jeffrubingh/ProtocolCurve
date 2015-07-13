@@ -1,5 +1,2 @@
 F:\software\final evereything fixed\report working before1\report working\script 3\script\examples\Achievements\projects\artifactlens\runtime\bin\Release\net9.0\ArtifactLens.Runtime.exe
 F:\software\final evereything fixed\report working before1\report working\script 3\script\examples\Achievements\projects\artifactlens\runtime\bin\Release\net9.0\ArtifactLens.Runtime.deps.json
-F:\software\final evereything fixed\report working before1\report working\script 3\script\examples\Achievements\projects\artifactlens\runtime\bin\Release\net9.0\ArtifactLens.Runtime.runtimeconfig.json
-F:\software\final evereything fixed\report working before1\report working\script 3\script\examples\Achievements\projects\artifactlens\runtime\bin\Release\net9.0\ArtifactLens.Runtime.dll
-F:\software\final evereything fixed\report working before1\report working\script 3\script\examples\Achievements\projects\artifactlens\runtime\bin\Release\net9.0\ArtifactLens.Runtime.pdb
