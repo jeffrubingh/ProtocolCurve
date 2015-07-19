@@ -8,23 +8,3 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Byte-compile package
-        run: python -m compileall artifactlens
-      - name: Render dossier
-        run: python -m artifactlens dossier examples/fixtures/sample-graph.json
-      - name: Coverage (JSON)
-        run: python -m artifactlens coverage --json examples/fixtures/sample-graph.json
-
-  runtime:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.0.x"
-      - name: Build runtime

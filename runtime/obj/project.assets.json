@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "net9.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\ASHISH\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",

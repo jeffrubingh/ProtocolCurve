@@ -11,3 +11,10 @@ from artifactlens.model import (
     LineageGraph,
     CoverageReport,
     Dossier,
+)
+from artifactlens.graph import build_graph, find_roots, find_leaves
+from artifactlens.coverage import compute_coverage
+from artifactlens.dossier import build_dossier, render_dossier
+
+__version__ = "1.0.0"
+

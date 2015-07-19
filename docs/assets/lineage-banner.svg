@@ -28,33 +28,3 @@
     <text x="150" y="92">retrieve</text>
     <text x="150" y="160">generate</text>
     <text x="330" y="76">summarize</text>
-    <text x="330" y="162">refactor</text>
-  </g>
-
-  <!-- root node (red) -->
-  <g font-family="'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle">
-    <circle cx="90" cy="120" r="26" fill="#c62828" stroke="#7a1414" stroke-width="2"/>
-    <text x="90" y="118" fill="#ffffff" font-size="11">root</text>
-    <text x="90" y="132" fill="#ffe0e0" font-size="9">prompt</text>
-
-    <!-- verified document (blue fill = has content hash) -->
-    <rect x="206" y="60" width="94" height="48" rx="6" fill="#1d4e89" stroke="#123a6b" stroke-width="2"/>
-    <text x="253" y="82" fill="#ffffff">document</text>
-    <text x="253" y="98" fill="#c9dbf0" font-size="9">hash present</text>
-
-    <!-- unverified dataset (white fill = no hash) -->
-    <rect x="206" y="144" width="94" height="48" rx="6" fill="#ffffff" stroke="#1d4e89" stroke-width="2"/>
-    <text x="253" y="166" fill="#1d4e89">dataset</text>
-    <text x="253" y="182" fill="#8a97a5" font-size="9">unverified</text>
-
-    <rect x="392" y="60" width="94" height="48" rx="6" fill="#1d4e89" stroke="#123a6b" stroke-width="2"/>
-    <text x="439" y="82" fill="#ffffff">code</text>
-    <text x="439" y="98" fill="#c9dbf0" font-size="9">hash present</text>
-
-    <rect x="392" y="108" width="94" height="48" rx="6" fill="#ffffff" stroke="#1d4e89" stroke-width="2"/>
-    <text x="439" y="130" fill="#1d4e89">summary</text>
-    <text x="439" y="146" fill="#8a97a5" font-size="9">unverified</text>
-
-    <!-- leaf dossier -->
-    <rect x="578" y="88" width="118" height="88" rx="6" fill="#f0ead9" stroke="#1d4e89" stroke-width="2"/>
-    <text x="637" y="120" fill="#1d4e89" font-weight="700">dossier</text>
