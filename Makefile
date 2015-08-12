@@ -25,12 +25,3 @@ dossier:
 coverage:
 	$(PYTHON) -m artifactlens coverage $(GRAPH)
 
-roots:
-	$(PYTHON) -m artifactlens roots $(GRAPH)
-
-lineage:
-	$(PYTHON) -m artifactlens lineage $(GRAPH) $(ID)
-
-runtime-build:
-	dotnet build $(RUNTIME) -c Release
-
