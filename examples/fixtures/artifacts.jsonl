@@ -1,0 +1,2 @@
+{"id": "raw-log", "kind": "tool_result", "label": "Agent trace log", "content_hash": "sha256:aa00", "produced_by": "harness"}
+{"id": "extracted-facts", "kind": "dataset", "label": "Extracted claims", "content_hash": "sha256:bb01", "produced_by": "extractor"}
