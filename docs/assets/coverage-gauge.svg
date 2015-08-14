@@ -16,21 +16,3 @@
 
   <!-- signal bars, widths proportional to their fixed weights -->
   <g font-family="'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#26364a">
-    <text x="24" y="86">connectivity</text>
-    <rect x="150" y="74" width="0" height="18" rx="3" fill="url(#fill)">
-      <animate attributeName="width" values="0;180" dur="0.9s" fill="freeze"/>
-    </rect>
-    <text x="342" y="88" font-family="monospace" font-size="11" fill="#8a6d3b" opacity="0">0.30<animate attributeName="opacity" values="0;1" dur="0.4s" begin="0.8s" fill="freeze"/></text>
-
-    <text x="24" y="122">rootedness</text>
-    <rect x="150" y="110" width="0" height="18" rx="3" fill="url(#fill)">
-      <animate attributeName="width" values="0;180" dur="0.9s" begin="0.15s" fill="freeze"/>
-    </rect>
-    <text x="342" y="124" font-family="monospace" font-size="11" fill="#8a6d3b" opacity="0">0.30<animate attributeName="opacity" values="0;1" dur="0.4s" begin="0.95s" fill="freeze"/></text>
-
-    <text x="24" y="158">verification</text>
-    <rect x="150" y="146" width="0" height="18" rx="3" fill="url(#fill)">
-      <animate attributeName="width" values="0;150" dur="0.9s" begin="0.3s" fill="freeze"/>
-    </rect>
-    <text x="312" y="160" font-family="monospace" font-size="11" fill="#8a6d3b" opacity="0">0.25<animate attributeName="opacity" values="0;1" dur="0.4s" begin="1.1s" fill="freeze"/></text>
-
