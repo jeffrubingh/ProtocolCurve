@@ -33,38 +33,3 @@ public static class Program
             Console.Error.WriteLine("error: missing graph document path");
             return 2;
         }
-
-        try
-        {
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            var text = File.ReadAllText(path);
-            var doc = JsonSerializer.Deserialize<GraphDocument>(text, options)
-                      ?? throw new GraphException("empty or invalid graph document");
-            var graph = LineageGraph.Build(doc);
-
-            return command switch
-            {
-                "roots" => RunRoots(graph),
-                "coverage" => RunCoverage(graph),
-                "digest" => RunDigest(graph),
-                "dossier" => RunDossier(graph),
-                _ => Unknown(command),
-            };
-        }
-        catch (GraphException ex)
-        {
-            Console.Error.WriteLine($"error: {ex.Message}");
-            return 1;
-        }
-        catch (FileNotFoundException)
-        {
-            Console.Error.WriteLine($"error: file not found: {path}");
-            return 1;
-        }
-    }
-
-    private static int RunRoots(LineageGraph graph)
-    {
-        Console.WriteLine("ROOTS");
-        foreach (var id in graph.Roots())
-        {
