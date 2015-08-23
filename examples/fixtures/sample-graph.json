@@ -31,37 +31,3 @@
       "kind": "document",
       "label": "Retrieved KB article: retries",
       "produced_by": "retriever",
-      "created_at": "2026-01-04T09:01:12Z",
-      "attributes": { "source": "kb://articles/retries" }
-    },
-    {
-      "id": "plan",
-      "kind": "decision",
-      "label": "Implementation plan",
-      "content_hash": "sha256:c31d02",
-      "produced_by": "planner-agent",
-      "created_at": "2026-01-04T09:02:00Z"
-    },
-    {
-      "id": "draft-module",
-      "kind": "code",
-      "label": "First draft: cache module",
-      "content_hash": "sha256:5e77aa",
-      "produced_by": "coder-agent",
-      "created_at": "2026-01-04T09:05:00Z"
-    },
-    {
-      "id": "lint-report",
-      "kind": "tool_result",
-      "label": "Static analysis output",
-      "content_hash": "sha256:7c9012",
-      "produced_by": "linter",
-      "created_at": "2026-01-04T09:06:30Z"
-    },
-    {
-      "id": "final-module",
-      "kind": "code",
-      "label": "Reviewed cache module",
-      "content_hash": "sha256:d4e5f6",
-      "produced_by": "coder-agent",
-      "created_at": "2026-01-04T09:08:00Z"
