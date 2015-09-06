@@ -33,38 +33,3 @@ def build_dossier(graph: LineageGraph) -> Dossier:
     for leaf in leaves:
         chain = ancestry(graph, leaf)
         lineages[leaf] = chain + (leaf,)
-
-    op_hist = Counter(
-        graph.transformations[t].op for t in graph.transformation_ids
-    )
-    kind_hist = Counter(
-        graph.artifacts[a].kind for a in graph.artifact_ids
-    )
-
-    return Dossier(
-        graph_digest=digest_graph(graph),
-        roots=roots,
-        leaves=leaves,
-        coverage=coverage,
-        lineages=lineages,
-        op_histogram=dict(op_hist),
-        kind_histogram=dict(kind_hist),
-    )
-
-
-def render_dossier(
-    dossier: Dossier,
-    graph: LineageGraph,
-    *,
-    fmt: str = "text",
-) -> str:
-    """Render a dossier as ``"json"`` or ``"text"``.
-
-    JSON output is deterministic (sorted keys, fixed separators) and suitable
-    for diffing across runs. Text output is a sectioned report for terminals.
-    """
-    if fmt == "json":
-        return json.dumps(dossier.to_dict(), indent=2, sort_keys=True)
-    if fmt == "text":
-        return _render_text(dossier, graph)
-    raise ValueError(f"unsupported format: {fmt!r}")
