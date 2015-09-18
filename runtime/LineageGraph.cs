@@ -31,36 +31,3 @@ public sealed class LineageGraph
     public IEnumerable<string> TransformationIds => _transformations.Keys.OrderBy(x => x, StringComparer.Ordinal);
 
     /// <summary>Build and validate a graph from a document.</summary>
-    /// <exception cref="GraphException">On duplicate ids, cycles, or (strict) missing endpoints.</exception>
-    public static LineageGraph Build(GraphDocument doc, bool strict = true)
-    {
-        var artifacts = new Dictionary<string, Artifact>(StringComparer.Ordinal);
-        foreach (var art in doc.Artifacts)
-        {
-            var norm = art with { Label = string.IsNullOrEmpty(art.Label) ? art.Id : art.Label };
-            if (!artifacts.TryAdd(norm.Id, norm))
-                throw new GraphException($"duplicate artifact id: {norm.Id}");
-        }
-
-        var transformations = new Dictionary<string, Transformation>(StringComparer.Ordinal);
-        foreach (var tr in doc.Transformations)
-        {
-            if (!transformations.TryAdd(tr.Id, tr))
-                throw new GraphException($"duplicate transformation id: {tr.Id}");
-        }
-
-        foreach (var tr in transformations.Values)
-        {
-            foreach (var endpoint in tr.Inputs.Concat(tr.Outputs))
-            {
-                if (!artifacts.ContainsKey(endpoint))
-                {
-                    if (strict)
-                        throw new GraphException(
-                            $"transformation {tr.Id} references unknown artifact {endpoint}");
-                    artifacts[endpoint] = new Artifact { Id = endpoint, Label = endpoint };
-                }
-            }
-        }
-
-        var producers = artifacts.Keys.ToDictionary(k => k, _ => new List<string>(), StringComparer.Ordinal);
