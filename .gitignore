@@ -10,3 +10,15 @@ venv/
 
 # .NET
 bin/
+obj/
+*.user
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ArtifactLens output
+*.dossier.json
+*.dossier.txt
