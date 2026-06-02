@@ -1,0 +1,16 @@
+{
+  "name": "curveprotocol-parity",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Canonical book parity check for the Exponential Curve Protocol",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/parity.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
