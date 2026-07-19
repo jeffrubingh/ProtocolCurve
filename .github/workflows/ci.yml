@@ -8,3 +8,44 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Byte-compile package
+        run: python -m compileall artifactlens
+      - name: Render dossier
+        run: python -m artifactlens dossier examples/fixtures/sample-graph.json
+      - name: Coverage (JSON)
+        run: python -m artifactlens coverage --json examples/fixtures/sample-graph.json
+
+  runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+      - name: Build runtime
+        run: dotnet build runtime/ArtifactLens.Runtime.csproj -c Release
+      - name: Runtime dossier
+        run: dotnet run --project runtime/ArtifactLens.Runtime.csproj -c Release -- dossier examples/fixtures/sample-graph.json
+
+  parity:
+    runs-on: ubuntu-latest
+    needs: [python, runtime]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+      - name: Compare graph digests
+        run: |
+          PY=$(python -m artifactlens dossier --format json examples/fixtures/sample-graph.json | python -c "import sys,json;print(json.load(sys.stdin)['graph_digest'])")
+          RT=$(dotnet run --project runtime/ArtifactLens.Runtime.csproj -c Release -- digest examples/fixtures/sample-graph.json)
+          echo "python=$PY runtime=$RT"
+          test "$PY" = "$RT"
