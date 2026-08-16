@@ -50,3 +50,56 @@ public static class Coverage
         double score = (WConnectivity * connectivity
                         + WVerification * verification
                         + WRootedness * rootedness
+                        + WConfidence * meanConf) / WeightSum;
+
+        orphans.Sort(StringComparer.Ordinal);
+        dangling.Sort(StringComparer.Ordinal);
+
+        return new CoverageReport
+        {
+            TotalArtifacts = total,
+            ConnectedArtifacts = connected,
+            VerifiedArtifacts = verified,
+            RootedArtifacts = rooted,
+            OrphanIds = orphans,
+            DanglingIds = dangling,
+            CoverageScore = score,
+        };
+    }
+
+    private static double MeanConfidence(LineageGraph graph)
+    {
+        if (graph.Transformations.Count == 0) return 1.0;
+        double total = graph.Transformations.Values.Sum(t => t.EffectiveConfidence);
+        return total / graph.Transformations.Count;
+    }
+
+    public static string Grade(double score) => score switch
+    {
+        >= 0.90 => "A",
+        >= 0.75 => "B",
+        >= 0.60 => "C",
+        >= 0.40 => "D",
+        _ => "F",
+    };
+
+    /// <summary>Stable SHA-256 digest matching the Python <c>digest_graph</c>.</summary>
+    public static string DigestGraph(LineageGraph graph)
+    {
+        var sb = new StringBuilder();
+        foreach (var aid in graph.ArtifactIds)
+        {
+            var art = graph.Artifacts[aid];
+            sb.Append($"A|{art.Id}|{art.Kind}|{art.ContentHash ?? ""}\n");
+        }
+        foreach (var tid in graph.TransformationIds)
+        {
+            var tr = graph.Transformations[tid];
+            var ins = string.Join(",", tr.Inputs.OrderBy(x => x, StringComparer.Ordinal));
+            var outs = string.Join(",", tr.Outputs.OrderBy(x => x, StringComparer.Ordinal));
+            sb.Append($"T|{tr.Id}|{tr.Op}|{ins}|{outs}\n");
+        }
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(sb.ToString()));
+        return Convert.ToHexStringLower(bytes);
+    }
+}
