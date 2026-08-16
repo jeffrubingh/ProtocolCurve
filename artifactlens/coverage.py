@@ -60,3 +60,65 @@ def compute_coverage(graph: LineageGraph) -> CoverageReport:
     dangling = []
 
     for aid in graph.artifact_ids:
+        has_producer = bool(graph.producers.get(aid))
+        has_consumer = bool(graph.consumers.get(aid))
+        if has_producer or has_consumer:
+            connected += 1
+        else:
+            orphans.append(aid)
+
+        if graph.artifacts[aid].is_verified:
+            verified += 1
+
+        if reaches_root(graph, aid, roots):
+            rooted += 1
+
+        # Dangling: not a root, yet nothing produced it (broken provenance).
+        if aid not in roots and not has_producer:
+            dangling.append(aid)
+
+    mean_conf = _mean_confidence(graph)
+
+    connectivity = connected / total
+    verification = verified / total
+    rootedness = rooted / total
+
+    score = (
+        W_CONNECTIVITY * connectivity
+        + W_VERIFICATION * verification
+        + W_ROOTEDNESS * rootedness
+        + W_CONFIDENCE * mean_conf
+    ) / _WEIGHT_SUM
+
+    return CoverageReport(
+        total_artifacts=total,
+        connected_artifacts=connected,
+        verified_artifacts=verified,
+        rooted_artifacts=rooted,
+        orphan_ids=tuple(sorted(orphans)),
+        dangling_ids=tuple(sorted(dangling)),
+        coverage_score=score,
+    )
+
+
+def _mean_confidence(graph: LineageGraph) -> float:
+    if not graph.transformations:
+        return 1.0
+    total = sum(
+        graph.transformations[t].effective_confidence
+        for t in graph.transformation_ids
+    )
+    return total / len(graph.transformations)
+
+
+def grade(score: float) -> str:
+    """Map a coverage score to a single-letter grade for quick scanning."""
+    if score >= 0.90:
+        return "A"
+    if score >= 0.75:
+        return "B"
+    if score >= 0.60:
+        return "C"
+    if score >= 0.40:
+        return "D"
+    return "F"
