@@ -31,3 +31,104 @@
       "kind": "document",
       "label": "Retrieved KB article: retries",
       "produced_by": "retriever",
+      "created_at": "2026-01-04T09:01:12Z",
+      "attributes": { "source": "kb://articles/retries" }
+    },
+    {
+      "id": "plan",
+      "kind": "decision",
+      "label": "Implementation plan",
+      "content_hash": "sha256:c31d02",
+      "produced_by": "planner-agent",
+      "created_at": "2026-01-04T09:02:00Z"
+    },
+    {
+      "id": "draft-module",
+      "kind": "code",
+      "label": "First draft: cache module",
+      "content_hash": "sha256:5e77aa",
+      "produced_by": "coder-agent",
+      "created_at": "2026-01-04T09:05:00Z"
+    },
+    {
+      "id": "lint-report",
+      "kind": "tool_result",
+      "label": "Static analysis output",
+      "content_hash": "sha256:7c9012",
+      "produced_by": "linter",
+      "created_at": "2026-01-04T09:06:30Z"
+    },
+    {
+      "id": "final-module",
+      "kind": "code",
+      "label": "Reviewed cache module",
+      "content_hash": "sha256:d4e5f6",
+      "produced_by": "coder-agent",
+      "created_at": "2026-01-04T09:08:00Z"
+    },
+    {
+      "id": "summary-note",
+      "kind": "summary",
+      "label": "Change summary for reviewer",
+      "content_hash": "sha256:0abc12",
+      "produced_by": "writer-agent",
+      "created_at": "2026-01-04T09:09:00Z"
+    },
+    {
+      "id": "stray-scratch",
+      "kind": "unknown",
+      "label": "Orphaned scratch note",
+      "created_at": "2026-01-04T09:03:00Z"
+    }
+  ],
+  "transformations": [
+    {
+      "id": "t-retrieve",
+      "op": "retrieve",
+      "inputs": ["seed-prompt"],
+      "outputs": ["kb-snippet-a", "kb-snippet-b"],
+      "agent": "retriever",
+      "confidence": 0.9
+    },
+    {
+      "id": "t-plan",
+      "op": "generate",
+      "inputs": ["seed-prompt", "spec-doc", "kb-snippet-a", "kb-snippet-b"],
+      "outputs": ["plan"],
+      "agent": "planner-agent",
+      "confidence": 0.95
+    },
+    {
+      "id": "t-draft",
+      "op": "generate",
+      "inputs": ["plan", "spec-doc"],
+      "outputs": ["draft-module"],
+      "agent": "coder-agent",
+      "confidence": 0.8
+    },
+    {
+      "id": "t-lint",
+      "op": "validate",
+      "inputs": ["draft-module"],
+      "outputs": ["lint-report"],
+      "agent": "linter",
+      "confidence": 1.0
+    },
+    {
+      "id": "t-refactor",
+      "op": "refactor",
+      "inputs": ["draft-module", "lint-report"],
+      "outputs": ["final-module"],
+      "agent": "coder-agent",
+      "confidence": 0.85
+    },
+    {
+      "id": "t-summarize",
+      "op": "summarize",
+      "inputs": ["final-module", "plan"],
+      "outputs": ["summary-note"],
+      "agent": "writer-agent",
+      "confidence": 0.7
+    }
+  ]
+}
