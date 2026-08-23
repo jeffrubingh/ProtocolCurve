@@ -1,20 +1,23 @@
-# ArtifactLens
+# curveprotocol
 
-Provenance coverage for build artifacts. Point it at a lineage graph and it reports how much of the
-graph is connected, verified, rooted and how confident its transformations are.
+Reference engine for the Exponential Curve Protocol. Reserves hold USDT in
+bands, a curve compounds them toward a ceiling, and depth scoring reports how
+much of the book survives a draw.
 
-## Usage
+No floats. Balances are integer micro-USDT, so a projection made on one machine
+is byte-identical to the same projection on another, in every port.
 
-```bash
-python -m artifactlens coverage examples/fixtures/sample-graph.json
-python -m artifactlens dossier examples/fixtures/sample-graph.json -o reports/dossier.md
-```
+## Model
 
-The score combines four fixed-weight signals; the weights are exported from
-`artifactlens.coverage` so a report can quote them.
+Five bands, drained in order:
 
-## Layout
+| band   | weight | role             |
+| ------ | ------ | ---------------- |
+| seed   | 1.00   | bootstrap        |
+| core   | 1.00   | standing reserve |
+| buffer | 0.80   | first draw       |
+| edge   | 0.45   | opportunistic    |
+| sink   | 0.20   | last resort      |
 
-- `artifactlens/` - graph model, coverage scoring, dossier rendering and the CLI.
-- `runtime/` - the optional C# reader that renders the same dossier.
-- `examples/fixtures/` - sample graphs and transformations.
+A reserve is a tranche. A flow moves value between tranches. Flows form a DAG
+and cycles are rejected at assembly time.

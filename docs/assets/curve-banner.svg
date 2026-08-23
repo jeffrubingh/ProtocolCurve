@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="Exponential curve flattening at a ceiling">
+  <rect width="1200" height="320" fill="#0b0f14"/>
+  <g stroke="#1b2530" stroke-width="1">
+    <path d="M0 40H1200M0 100H1200M0 160H1200M0 220H1200M0 280H1200"/>
+    <path d="M200 0V320M400 0V320M600 0V320M800 0V320M1000 0V320"/>
+  </g>
+  <path d="M60 290H1140" stroke="#33414f" stroke-width="2"/>
+  <path d="M60 60H1140" stroke="#3d5a80" stroke-width="2" stroke-dasharray="10 8"/>
+  <path d="M60 290 C 260 288, 420 250, 560 190 C 700 130, 820 78, 940 62 L 1140 60" fill="none" stroke="#5ec8a0" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 290 C 260 288, 420 250, 560 190 C 700 130, 820 78, 940 62 L 1140 60 L 1140 290 Z" fill="#5ec8a0" opacity="0.08"/>
+  <circle cx="940" cy="62" r="7" fill="#5ec8a0"/>
+  <text x="60" y="40" fill="#8fa3b5" font-family="monospace" font-size="18">ceiling</text>
+  <text x="60" y="308" fill="#4d5c6b" font-family="monospace" font-size="16">epochs</text>
+  <text x="1140" y="308" text-anchor="end" fill="#4d5c6b" font-family="monospace" font-size="16">reserve</text>
+  <text x="70" y="120" fill="#e6edf3" font-family="monospace" font-size="26">Exponential Curve Protocol</text>
+  <text x="70" y="152" fill="#5ec8a0" font-family="monospace" font-size="15">integer compounding · post-step clamp · monotone</text>
+</svg>

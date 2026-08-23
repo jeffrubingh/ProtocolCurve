@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" width="640" height="240" role="img" aria-label="Band weights from seed to sink">
+  <rect width="640" height="240" fill="#0b0f14"/>
+  <text x="32" y="42" fill="#e6edf3" font-family="monospace" font-size="20">band weight</text>
+  <text x="32" y="66" fill="#4d5c6b" font-family="monospace" font-size="13">weighted depth over raw balance</text>
+  <g font-family="monospace" font-size="14">
+    <text x="32" y="108" fill="#8fa3b5">seed</text>
+    <rect x="100" y="96" width="440" height="16" fill="#1b2530"/>
+    <rect x="100" y="96" width="440" height="16" fill="#5ec8a0"/>
+    <text x="556" y="108" fill="#5ec8a0">1.00</text>
+    <text x="32" y="140" fill="#8fa3b5">core</text>
+    <rect x="100" y="128" width="440" height="16" fill="#1b2530"/>
+    <rect x="100" y="128" width="440" height="16" fill="#5ec8a0"/>
+    <text x="556" y="140" fill="#5ec8a0">1.00</text>
+    <text x="32" y="172" fill="#8fa3b5">buffer</text>
+    <rect x="100" y="160" width="440" height="16" fill="#1b2530"/>
+    <rect x="100" y="160" width="352" height="16" fill="#7fc4a6"/>
+    <text x="556" y="172" fill="#7fc4a6">0.80</text>
+    <text x="32" y="204" fill="#8fa3b5">edge</text>
+    <rect x="100" y="192" width="440" height="16" fill="#1b2530"/>
+    <rect x="100" y="192" width="198" height="16" fill="#c8a05e"/>
+    <text x="556" y="204" fill="#c8a05e">0.45</text>
+    <text x="32" y="236" fill="#8fa3b5">sink</text>
+    <rect x="100" y="224" width="440" height="16" fill="#1b2530"/>
+    <rect x="100" y="224" width="88" height="16" fill="#c86b5e"/>
+    <text x="556" y="236" fill="#c86b5e">0.20</text>
+  </g>
+</svg>
