@@ -104,3 +104,109 @@ def _load_graph(args: argparse.Namespace) -> LineageGraph:
     if args.graph is not None:
         arts, trs = load_graph_document(args.graph)
         return build_graph(arts, trs, strict=strict)
+
+    if not args.artifacts or not args.transformations:
+        raise GraphError(
+            "provide a graph document, or both --artifacts and --transformations"
+        )
+    arts = parse_artifacts(load_records(args.artifacts))
+    trs = parse_transformations(load_records(args.transformations))
+    return build_graph(arts, trs, strict=strict)
+
+
+def _cmd_ingest(args: argparse.Namespace) -> int:
+    graph = _load_graph(args)
+    doc = graph.to_dict()
+    if args.out:
+        write_json(args.out, doc)
+        print(
+            f"wrote normalised graph: {len(graph.artifacts)} artifacts, "
+            f"{len(graph.transformations)} transformations -> {args.out}"
+        )
+    else:
+        import json
+
+        print(json.dumps(doc, indent=2, sort_keys=True))
+    return 0
+
+
+def _cmd_roots(args: argparse.Namespace) -> int:
+    graph = _load_graph(args)
+    roots = find_roots(graph)
+    leaves = find_leaves(graph)
+    print("ROOTS")
+    for rid in roots:
+        art = graph.artifacts[rid]
+        print(f"  {rid}  [{art.kind}]  {art.label}")
+    print("LEAVES")
+    for lid in leaves:
+        art = graph.artifacts[lid]
+        print(f"  {lid}  [{art.kind}]  {art.label}")
+    return 0
+
+
+def _cmd_coverage(args: argparse.Namespace) -> int:
+    graph = _load_graph(args)
+    cov = compute_coverage(graph)
+    if args.json:
+        import json
+
+        print(json.dumps(cov.to_dict(), indent=2, sort_keys=True))
+    else:
+        print(f"coverage score : {cov.coverage_score:.4f} (grade {grade(cov.coverage_score)})")
+        print(f"connected      : {cov.connected_artifacts}/{cov.total_artifacts}")
+        print(f"verified       : {cov.verified_artifacts}/{cov.total_artifacts}")
+        print(f"rooted         : {cov.rooted_artifacts}/{cov.total_artifacts}")
+        if cov.orphan_ids:
+            print(f"orphans        : {', '.join(cov.orphan_ids)}")
+        if cov.dangling_ids:
+            print(f"dangling       : {', '.join(cov.dangling_ids)}")
+    return 0
+
+
+def _cmd_dossier(args: argparse.Namespace) -> int:
+    graph = _load_graph(args)
+    dossier = build_dossier(graph)
+    rendered = render_dossier(dossier, graph, fmt=args.format)
+    if args.out:
+        args.out.write_text(rendered + "\n", encoding="utf-8")
+        print(f"wrote dossier -> {args.out}")
+    else:
+        print(rendered)
+    return 0
+
+
+def _cmd_lineage(args: argparse.Namespace) -> int:
+    graph = _load_graph(args)
+    if args.artifact_id not in graph.artifacts:
+        print(f"unknown artifact: {args.artifact_id}", file=sys.stderr)
+        return 2
+    chain = ancestry(graph, args.artifact_id) + (args.artifact_id,)
+    print("  ->  ".join(chain))
+    return 0
+
+
+_DISPATCH = {
+    "ingest": _cmd_ingest,
+    "roots": _cmd_roots,
+    "coverage": _cmd_coverage,
+    "dossier": _cmd_dossier,
+    "lineage": _cmd_lineage,
+}
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    handler = _DISPATCH.get(args.command)
+    if handler is None:  # pragma: no cover - argparse enforces this
+        parser.error(f"unknown command: {args.command}")
+    try:
+        return handler(args)
+    except (GraphError, ValueError, FileNotFoundError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
