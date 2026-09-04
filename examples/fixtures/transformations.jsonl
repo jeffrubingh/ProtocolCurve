@@ -1,0 +1,3 @@
+{"id": "x-extract", "op": "derive", "inputs": ["raw-log"], "outputs": ["extracted-facts"], "agent": "extractor", "confidence": 0.88}
+{"id": "x-judge", "op": "validate", "inputs": ["extracted-facts"], "outputs": ["verdict"], "agent": "judge-agent", "confidence": 0.92}
+{"id": "x-write", "op": "summarize", "inputs": ["verdict", "extracted-facts"], "outputs": ["report"], "agent": "writer-agent", "confidence": 0.8}
