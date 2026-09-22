@@ -44,3 +44,50 @@ def load_records(path: Path) -> List[dict]:
 
 
 def _parse_jsonl(text: str) -> List[dict]:
+    records: List[dict] = []
+    for lineno, raw in enumerate(text.splitlines(), start=1):
+        line = raw.strip()
+        if not line:
+            continue
+        try:
+            records.append(json.loads(line))
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid JSONL at line {lineno}: {exc}") from exc
+    return records
+
+
+def load_graph_document(path: Path) -> Tuple[List[Artifact], List[Transformation]]:
+    """Load a combined graph document.
+
+    A graph document is a single JSON object with ``artifacts`` and
+    ``transformations`` arrays::
+
+        {
+          "artifacts": [ {...}, ... ],
+          "transformations": [ {...}, ... ]
+        }
+    """
+    obj = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(obj, Mapping):
+        raise ValueError("graph document must be a JSON object")
+    arts = [Artifact.from_dict(r) for r in obj.get("artifacts", [])]
+    trs = [Transformation.from_dict(r) for r in obj.get("transformations", [])]
+    return arts, trs
+
+
+def parse_artifacts(records: Iterable[Mapping[str, Any]]) -> List[Artifact]:
+    return [Artifact.from_dict(r) for r in records]
+
+
+def parse_transformations(
+    records: Iterable[Mapping[str, Any]],
+) -> List[Transformation]:
+    return [Transformation.from_dict(r) for r in records]
+
+
+def write_json(path: Path, payload: Any) -> None:
+    """Write *payload* as deterministic pretty JSON."""
+    path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
