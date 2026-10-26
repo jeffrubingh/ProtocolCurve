@@ -169,7 +169,8 @@ def _cmd_dossier(args: argparse.Namespace) -> int:
     dossier = build_dossier(graph)
     rendered = render_dossier(dossier, graph, fmt=args.format)
     if args.out:
-        args.out.write_text(rendered + "\n", encoding="utf-8")
+        from artifactlens.io import write_text
+        write_text(args.out, rendered + "\n")
         print(f"wrote dossier -> {args.out}")
     else:
         print(rendered)
