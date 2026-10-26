@@ -91,3 +91,13 @@ def write_json(path: Path, payload: Any) -> None:
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+
+
+def write_text(path, text: str) -> None:
+    """Write text, creating the parent directory first."""
+    from pathlib import Path
+
+    target = Path(path)
+    if target.parent and not target.parent.exists():
+        target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(text, encoding="utf-8")
