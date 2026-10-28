@@ -1,0 +1,7 @@
+(executable
+ (name parity)
+ (modules parity))
+
+(rule
+ (alias runtest)
+ (action (run ./parity.exe ../../examples/fixtures/book.txt)))

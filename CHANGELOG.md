@@ -1,29 +1,22 @@
 # Changelog
 
-All notable changes to CurveProtocol are documented here. The format follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
-semantic versioning.
+All notable changes are recorded here. Versions are cut from `main` only after
+`scripts/parity.sh` and the full test suite pass.
 
-## [1.0.0] - 2026-01-04
+## 0.1.0
 
-### Added
-- Immutable data model for artifacts, transformations, lineage graphs,
-  coverage reports and dossiers.
-- Graph construction with duplicate detection, endpoint validation, lenient
-  synthesis of unknown endpoints, and cycle detection.
-- Root and leaf discovery plus deterministic transitive ancestry resolution.
-- Weighted provenance coverage scoring across connectivity, verification,
-  rootedness and transformation confidence, with letter grading.
-- Dossier assembly with graph digest, per-leaf lineage chains, and operation
-  and kind histograms; text and JSON renderers.
-- JSON and JSON Lines ingest with automatic format detection, and combined
-  graph documents.
-- `curveprotocol` CLI with `ingest`, `roots`, `coverage`, `dossier` and
-  `lineage` commands.
-- Native `CurveProtocol.Runtime` (.NET 9) with `roots`, `coverage`, `digest`
-  and `dossier` commands that share the graph document format and reproduce
-  the Python digest and coverage score exactly.
-- Fixture graph, JSONL example inputs, animated SVG assets and full
-  documentation.
+First cut of the protocol.
 
-[1.0.0]: https://example.com/curveprotocol/releases/1.0.0
+- Integer micro-USDT money path, no floats, no rounding drift.
+- `curve.compound` with post-step ceiling clamp, `project`, `epochs_to_ceiling`.
+- `curve.split_bands` and `curve.band_weights` for harvest distribution.
+- Book assembly with strict and lenient modes, DAG cycle rejection, origins and
+  terminal detection, ancestry walk.
+- `depth.depth_score` band weighted, `DEPTH_FLOOR` absolute, grades A to E,
+  `shortfalls` largest gap first.
+- Trajectory assembly with text and JSON renderers.
+- Canonical `R|` / `F|` parity format and FNV-1a 64 fingerprint.
+- CLI: `ingest`, `origins`, `depth`, `trajectory`, `trace`, `curve`, `verify`,
+  `parity`.
+- Ports: Rust, Go, C++, Zig, Haskell, OCaml, TypeScript.
+- CI matrix with per-language fingerprint assertion.

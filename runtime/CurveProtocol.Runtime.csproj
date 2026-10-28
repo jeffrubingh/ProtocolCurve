@@ -8,7 +8,6 @@
     <AssemblyName>CurveProtocol.Runtime</AssemblyName>
     <RootNamespace>CurveProtocol.Runtime</RootNamespace>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>

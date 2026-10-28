@@ -1,103 +1,104 @@
-"""Input/output helpers for CurveProtocol.
+"""Journal readers and writers.
 
-CurveProtocol ingests two record types from disk: **artifacts** and
-**transformations**. Both can be supplied as a single JSON object/array or as
-JSON Lines (one record per line). The loader auto-detects the format so the
-same file works with either convention.
+The protocol records its journal as one JSON object per line (JSONL) or as a
+combined document holding both arrays. Both forms are accepted so an operator
+can pipe a live journal or hand over a single archived file.
+
+Writers create missing parent directories so a report can be dropped straight
+into a fresh dated folder.
 """
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Iterable, List, Mapping, Tuple
+from typing import Any, Dict, List, Mapping, Sequence, Tuple
 
-from curveprotocol.model import Artifact, Transformation
+from curveprotocol.model import Flow, Reserve
 
 
-def load_records(path: Path) -> List[dict]:
-    """Load a list of record dictionaries from a JSON or JSONL file.
+class InputError(ValueError):
+    """Raised when a journal cannot be parsed."""
 
-    Detection rules:
 
-    * If the file parses as a JSON array, its elements are the records.
-    * If it parses as a JSON object with an ``artifacts`` or ``transformations``
-      key, that container is handled by :func:`load_graph_document` instead;
-      here a bare object is treated as a single record.
-    * Otherwise the file is parsed as JSON Lines.
-    """
-    text = path.read_text(encoding="utf-8")
-    stripped = text.lstrip()
-    if stripped.startswith("["):
-        data = json.loads(text)
-        return list(data)
-    if stripped.startswith("{"):
-        # Could be a single record or a whole document; try full parse first.
+def _read_text(path: Path) -> str:
+    try:
+        return Path(path).read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise InputError(f"journal not found: {path}") from None
+    except OSError as exc:
+        raise InputError(f"cannot read {path}: {exc}") from None
+
+
+def load_records(path: Path) -> List[Dict[str, Any]]:
+    """Load a JSON array or a JSONL stream into a list of mappings."""
+    text = _read_text(path).strip()
+    if not text:
+        return []
+    if text[0] == "[":
         try:
-            obj = json.loads(text)
-        except json.JSONDecodeError:
-            return _parse_jsonl(text)
-        if isinstance(obj, dict):
-            return [obj]
-        return list(obj)
-    return _parse_jsonl(text)
-
-
-def _parse_jsonl(text: str) -> List[dict]:
-    records: List[dict] = []
-    for lineno, raw in enumerate(text.splitlines(), start=1):
-        line = raw.strip()
-        if not line:
+            payload = json.loads(text)
+        except json.JSONDecodeError as exc:
+            raise InputError(f"{path}: {exc}") from None
+        if not isinstance(payload, list):
+            raise InputError(f"{path}: expected a JSON array")
+        return [dict(item) for item in payload if isinstance(item, Mapping)]
+    records: List[Dict[str, Any]] = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        line = line.strip()
+        if not line or line.startswith("#"):
             continue
         try:
-            records.append(json.loads(line))
+            record = json.loads(line)
         except json.JSONDecodeError as exc:
-            raise ValueError(f"invalid JSONL at line {lineno}: {exc}") from exc
+            raise InputError(f"{path}:{lineno}: {exc}") from None
+        if not isinstance(record, Mapping):
+            raise InputError(f"{path}:{lineno}: expected an object")
+        records.append(dict(record))
     return records
 
 
-def load_graph_document(path: Path) -> Tuple[List[Artifact], List[Transformation]]:
-    """Load a combined graph document.
-
-    A graph document is a single JSON object with ``artifacts`` and
-    ``transformations`` arrays::
-
-        {
-          "artifacts": [ {...}, ... ],
-          "transformations": [ {...}, ... ]
-        }
-    """
-    obj = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(obj, Mapping):
-        raise ValueError("graph document must be a JSON object")
-    arts = [Artifact.from_dict(r) for r in obj.get("artifacts", [])]
-    trs = [Transformation.from_dict(r) for r in obj.get("transformations", [])]
-    return arts, trs
+def parse_reserves(records: Sequence[Mapping[str, Any]]) -> List[Reserve]:
+    reserves: List[Reserve] = []
+    for index, raw in enumerate(records):
+        try:
+            reserves.append(Reserve.from_dict(raw))
+        except (ValueError, TypeError) as exc:
+            raise InputError(f"reserve #{index}: {exc}") from None
+    return reserves
 
 
-def parse_artifacts(records: Iterable[Mapping[str, Any]]) -> List[Artifact]:
-    return [Artifact.from_dict(r) for r in records]
+def parse_flows(records: Sequence[Mapping[str, Any]]) -> List[Flow]:
+    flows: List[Flow] = []
+    for index, raw in enumerate(records):
+        try:
+            flows.append(Flow.from_dict(raw))
+        except (ValueError, TypeError) as exc:
+            raise InputError(f"flow #{index}: {exc}") from None
+    return flows
 
 
-def parse_transformations(
-    records: Iterable[Mapping[str, Any]],
-) -> List[Transformation]:
-    return [Transformation.from_dict(r) for r in records]
-
-
-def write_json(path: Path, payload: Any) -> None:
-    """Write *payload* as deterministic pretty JSON."""
-    path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+def load_book_document(path: Path) -> Tuple[List[Reserve], List[Flow]]:
+    """Load a combined document holding ``reserves`` and ``flows``."""
+    text = _read_text(path)
+    try:
+        payload = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise InputError(f"{path}: {exc}") from None
+    if not isinstance(payload, Mapping):
+        raise InputError(f"{path}: expected a JSON object")
+    return parse_reserves(payload.get("reserves") or []), parse_flows(
+        payload.get("flows") or []
     )
 
 
-def write_text(path, text: str) -> None:
-    """Write text, creating the parent directory first."""
-    from pathlib import Path
-
+def write_json(path: Path, payload: Any) -> None:
     target = Path(path)
-    if target.parent and not target.parent.exists():
-        target.parent.mkdir(parents=True, exist_ok=True)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def write_text(path: Path, text: str) -> None:
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(text, encoding="utf-8")

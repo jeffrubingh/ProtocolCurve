@@ -1,0 +1,7 @@
+{"id": "r-seed", "band": "seed", "label": "treasury seed", "balance": 5000000000, "epoch": 0, "weight": 1.0, "attributes": {"owner": "treasury"}}
+{"id": "r-core-a", "band": "core", "label": "core desk A", "balance": 2000000000, "epoch": 3, "weight": 1.0}
+{"id": "r-core-b", "band": "core", "label": "core desk B", "balance": 1500000000, "epoch": 3, "weight": 1.0}
+{"id": "r-buffer", "band": "buffer", "label": "buffer", "balance": 800000000, "epoch": 5, "weight": 0.8}
+{"id": "r-edge-a", "band": "edge", "label": "edge A", "balance": 120000000, "epoch": 7, "weight": 0.45}
+{"id": "r-sink", "band": "sink", "label": "sink", "balance": 40000000, "epoch": 9, "weight": 0.2}
+{"id": "r-dry", "band": "core", "label": "dry tranche", "balance": 0, "epoch": 11}

@@ -1,0 +1,12 @@
+[package]
+name = "curveprotocol-parity"
+version = "1.0.0"
+edition = "2021"
+description = "Canonical book parity check for the Exponential Curve Protocol"
+license = "MIT"
+
+[[bin]]
+name = "parity"
+path = "src/main.rs"
+
+[dependencies]

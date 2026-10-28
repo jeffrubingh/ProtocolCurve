@@ -1,34 +1,33 @@
-"""CurveProtocol: an agent output provenance explorer.
+"""CurveProtocol: the Exponential Curve Protocol book engine.
 
-CurveProtocol ingests artifact nodes and the transformations that connect them,
-builds a lineage graph, measures provenance coverage, locates root artifacts,
-and renders deterministic dossier reports.
+CurveProtocol reads a reserve journal, assembles the book, scores liquidity
+depth, projects the growth curve and renders a deterministic trajectory report.
 """
 
-from curveprotocol.model import (
-    Artifact,
-    Transformation,
-    LineageGraph,
-    CoverageReport,
-    Dossier,
-)
-from curveprotocol.graph import build_graph, find_roots, find_leaves
-from curveprotocol.coverage import compute_coverage
-from curveprotocol.dossier import build_dossier, render_dossier
+from curveprotocol.book import BookError, build_book, find_origins, find_terminals
+from curveprotocol.curve import compound, fingerprint, project, split_bands
+from curveprotocol.depth import compute_depth
+from curveprotocol.model import CurveBook, DepthReport, Flow, Reserve, Trajectory
+from curveprotocol.trajectory import build_trajectory, render
 
 __version__ = "1.0.0"
 
 __all__ = [
-    "Artifact",
-    "Transformation",
-    "LineageGraph",
-    "CoverageReport",
-    "Dossier",
-    "build_graph",
-    "find_roots",
-    "find_leaves",
-    "compute_coverage",
-    "build_dossier",
-    "render_dossier",
+    "BookError",
+    "build_book",
+    "find_origins",
+    "find_terminals",
+    "compound",
+    "fingerprint",
+    "project",
+    "split_bands",
+    "compute_depth",
+    "CurveBook",
+    "DepthReport",
+    "Flow",
+    "Reserve",
+    "Trajectory",
+    "build_trajectory",
+    "render",
     "__version__",
 ]

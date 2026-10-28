@@ -5,22 +5,20 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "curveprotocol"
 version = "1.0.0"
-description = "Agent output provenance explorer: lineage graphs, coverage, and dossier reports."
-readme = "README.md"
+description = "Exponential Curve Protocol: reserve book, curve projection and depth reports."
 requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
-authors = [{ name = "CurveProtocol" }]
-keywords = ["provenance", "lineage", "agents", "audit", "dossier"]
+license = { text = "MIT" }
+authors = [{ name = "Jeff Rubingh" }]
+keywords = ["curve", "liquidity", "reserves", "compounding", "usdt"]
 classifiers = [
     "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
     "Intended Audience :: Developers",
-    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Office/Business :: Financial",
 ]
 
 [project.urls]
-Documentation = "https://example.com/curveprotocol/docs"
-Source = "https://example.com/curveprotocol"
+Source = "https://github.com/jeffrubingh/ArtifactLens"
 
 [project.scripts]
 curveprotocol = "curveprotocol.cli:main"
