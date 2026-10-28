@@ -19,6 +19,6 @@ obj/
 .DS_Store
 Thumbs.db
 
-# ArtifactLens output
+# CurveProtocol output
 *.dossier.json
 *.dossier.txt

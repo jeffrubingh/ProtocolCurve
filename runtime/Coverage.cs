@@ -1,11 +1,11 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ArtifactLens.Runtime;
+namespace CurveProtocol.Runtime;
 
 /// <summary>
 /// Provenance coverage scoring and graph digest. The weights and algorithm
-/// match <c>artifactlens.coverage</c> exactly so the runtime and the Python
+/// match <c>curveprotocol.coverage</c> exactly so the runtime and the Python
 /// package report the same score for the same graph.
 /// </summary>
 public static class Coverage

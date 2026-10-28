@@ -5,8 +5,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>ArtifactLens.Runtime</AssemblyName>
-    <RootNamespace>ArtifactLens.Runtime</RootNamespace>
+    <AssemblyName>CurveProtocol.Runtime</AssemblyName>
+    <RootNamespace>CurveProtocol.Runtime</RootNamespace>
     <InvariantGlobalization>true</InvariantGlobalization>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

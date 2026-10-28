@@ -1,6 +1,6 @@
-"""Input/output helpers for ArtifactLens.
+"""Input/output helpers for CurveProtocol.
 
-ArtifactLens ingests two record types from disk: **artifacts** and
+CurveProtocol ingests two record types from disk: **artifacts** and
 **transformations**. Both can be supplied as a single JSON object/array or as
 JSON Lines (one record per line). The loader auto-detects the format so the
 same file works with either convention.
@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 from typing import Any, Iterable, List, Mapping, Tuple
 
-from artifactlens.model import Artifact, Transformation
+from curveprotocol.model import Artifact, Transformation
 
 
 def load_records(path: Path) -> List[dict]:

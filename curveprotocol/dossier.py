@@ -1,8 +1,8 @@
-"""Dossier assembly and rendering for ArtifactLens.
+"""Dossier assembly and rendering for CurveProtocol.
 
-A *dossier* is the human- and machine-readable report ArtifactLens produces
+A *dossier* is the human- and machine-readable report CurveProtocol produces
 for a graph. :func:`build_dossier` computes the structured
-:class:`~artifactlens.model.Dossier`; :func:`render_dossier` serialises it to
+:class:`~curveprotocol.model.Dossier`; :func:`render_dossier` serialises it to
 either deterministic JSON or a plain-text report in the paper/blue/red visual
 identity (rendered as sectioned ASCII for terminals).
 """
@@ -13,9 +13,9 @@ import json
 from collections import Counter
 from typing import Dict, Mapping, Tuple
 
-from artifactlens.coverage import compute_coverage, grade
-from artifactlens.graph import ancestry, find_leaves, find_roots
-from artifactlens.model import Dossier, LineageGraph, digest_graph
+from curveprotocol.coverage import compute_coverage, grade
+from curveprotocol.graph import ancestry, find_leaves, find_roots
+from curveprotocol.model import Dossier, LineageGraph, digest_graph
 
 
 def build_dossier(graph: LineageGraph) -> Dossier:

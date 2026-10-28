@@ -1,4 +1,4 @@
-"""Provenance coverage scoring for ArtifactLens.
+"""Provenance coverage scoring for CurveProtocol.
 
 Coverage answers a single question: *how much of this graph can we actually
 trust and trace?* It combines four independent signals into one score:
@@ -17,8 +17,8 @@ from __future__ import annotations
 
 from typing import Set, Tuple
 
-from artifactlens.graph import find_roots, reaches_root
-from artifactlens.model import CoverageReport, LineageGraph
+from curveprotocol.graph import find_roots, reaches_root
+from curveprotocol.model import CoverageReport, LineageGraph
 
 #: Weight applied to the connectivity signal.
 W_CONNECTIVITY = 0.30

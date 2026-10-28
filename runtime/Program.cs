@@ -1,9 +1,9 @@
 using System.Text.Json;
 
-namespace ArtifactLens.Runtime;
+namespace CurveProtocol.Runtime;
 
 /// <summary>
-/// The ArtifactLens native runtime. It parses a graph document, builds the
+/// The CurveProtocol native runtime. It parses a graph document, builds the
 /// lineage graph, and prints roots, coverage and the stable digest. It is used
 /// as a fast verification companion to the Python package and shares the same
 /// on-disk graph document format.
@@ -14,7 +14,7 @@ public static class Program
     {
         if (args.Length == 0)
         {
-            Console.Error.WriteLine("usage: ArtifactLens.Runtime <command> [graph.json]");
+            Console.Error.WriteLine("usage: CurveProtocol.Runtime <command> [graph.json]");
             Console.Error.WriteLine("commands: roots | coverage | digest | dossier");
             return 2;
         }
@@ -128,9 +128,9 @@ public static class Program
 
     private static void PrintHelp()
     {
-        Console.WriteLine("ArtifactLens.Runtime — native provenance engine");
+        Console.WriteLine("CurveProtocol.Runtime — native provenance engine");
         Console.WriteLine();
-        Console.WriteLine("usage: ArtifactLens.Runtime <command> <graph.json>");
+        Console.WriteLine("usage: CurveProtocol.Runtime <command> <graph.json>");
         Console.WriteLine();
         Console.WriteLine("commands:");
         Console.WriteLine("  roots     list root and leaf artifacts");

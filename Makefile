@@ -1,11 +1,11 @@
 PYTHON ?= python
 GRAPH  ?= examples/fixtures/sample-graph.json
-RUNTIME = runtime/ArtifactLens.Runtime.csproj
+RUNTIME = runtime/CurveProtocol.Runtime.csproj
 
 .PHONY: help compile dossier coverage roots lineage runtime-build runtime-dossier parity clean
 
 help:
-	@echo "ArtifactLens targets:"
+	@echo "CurveProtocol targets:"
 	@echo "  compile          byte-compile the Python package"
 	@echo "  dossier          render the dossier for the fixture graph"
 	@echo "  coverage         print coverage for the fixture graph"
@@ -17,19 +17,19 @@ help:
 	@echo "  clean            remove build and cache artifacts"
 
 compile:
-	$(PYTHON) -m compileall artifactlens
+	$(PYTHON) -m compileall curveprotocol
 
 dossier:
-	$(PYTHON) -m artifactlens dossier $(GRAPH)
+	$(PYTHON) -m curveprotocol dossier $(GRAPH)
 
 coverage:
-	$(PYTHON) -m artifactlens coverage $(GRAPH)
+	$(PYTHON) -m curveprotocol coverage $(GRAPH)
 
 roots:
-	$(PYTHON) -m artifactlens roots $(GRAPH)
+	$(PYTHON) -m curveprotocol roots $(GRAPH)
 
 lineage:
-	$(PYTHON) -m artifactlens lineage $(GRAPH) $(ID)
+	$(PYTHON) -m curveprotocol lineage $(GRAPH) $(ID)
 
 runtime-build:
 	dotnet build $(RUNTIME) -c Release
@@ -38,7 +38,7 @@ runtime-dossier:
 	dotnet run --project $(RUNTIME) -c Release -- dossier $(GRAPH)
 
 parity:
-	$(PYTHON) -m artifactlens dossier --format json $(GRAPH) | $(PYTHON) -c "import sys,json;print('py digest:',json.load(sys.stdin)['graph_digest'])"
+	$(PYTHON) -m curveprotocol dossier --format json $(GRAPH) | $(PYTHON) -c "import sys,json;print('py digest:',json.load(sys.stdin)['graph_digest'])"
 	dotnet run --project $(RUNTIME) -c Release -- digest $(GRAPH)
 
 clean:

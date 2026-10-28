@@ -1,8 +1,8 @@
-namespace ArtifactLens.Runtime;
+namespace CurveProtocol.Runtime;
 
 /// <summary>
 /// The assembled, validated lineage graph and its traversal operations. This
-/// is the C# counterpart to <c>artifactlens.graph</c> and produces identical
+/// is the C# counterpart to <c>curveprotocol.graph</c> and produces identical
 /// roots, leaves, ancestry and coverage as the Python implementation.
 /// </summary>
 public sealed class LineageGraph

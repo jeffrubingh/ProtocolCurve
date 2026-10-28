@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to ArtifactLens are documented here. The format follows
+All notable changes to CurveProtocol are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 semantic versioning.
 
@@ -18,12 +18,12 @@ semantic versioning.
   and kind histograms; text and JSON renderers.
 - JSON and JSON Lines ingest with automatic format detection, and combined
   graph documents.
-- `artifactlens` CLI with `ingest`, `roots`, `coverage`, `dossier` and
+- `curveprotocol` CLI with `ingest`, `roots`, `coverage`, `dossier` and
   `lineage` commands.
-- Native `ArtifactLens.Runtime` (.NET 9) with `roots`, `coverage`, `digest`
+- Native `CurveProtocol.Runtime` (.NET 9) with `roots`, `coverage`, `digest`
   and `dossier` commands that share the graph document format and reproduce
   the Python digest and coverage score exactly.
 - Fixture graph, JSONL example inputs, animated SVG assets and full
   documentation.
 
-[1.0.0]: https://example.com/artifactlens/releases/1.0.0
+[1.0.0]: https://example.com/curveprotocol/releases/1.0.0

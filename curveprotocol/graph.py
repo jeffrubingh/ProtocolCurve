@@ -1,7 +1,7 @@
-"""Graph construction and traversal for ArtifactLens.
+"""Graph construction and traversal for CurveProtocol.
 
 This module turns raw artifact and transformation records into a validated
-:class:`~artifactlens.model.LineageGraph` and provides the traversal helpers
+:class:`~curveprotocol.model.LineageGraph` and provides the traversal helpers
 used by the coverage and dossier layers.
 
 The graph is a bipartite-flavoured DAG: artifacts are nodes and each
@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Dict, Iterable, List, Mapping, Set, Tuple
 
-from artifactlens.model import Artifact, LineageGraph, Transformation
+from curveprotocol.model import Artifact, LineageGraph, Transformation
 
 
 class GraphError(ValueError):
@@ -94,7 +94,7 @@ def find_roots(graph: LineageGraph) -> Tuple[str, ...]:
     """Return artifact ids that are produced by no transformation.
 
     Roots are the ultimate sources of provenance: prompts, seed documents, or
-    externally supplied datasets that ArtifactLens did not observe being
+    externally supplied datasets that CurveProtocol did not observe being
     generated. Orphan artifacts (no edges at all) are still roots.
     """
     roots = [

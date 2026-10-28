@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from artifactlens.io import write_text
+from curveprotocol.io import write_text
 
 
 class WriteTextTests(unittest.TestCase):

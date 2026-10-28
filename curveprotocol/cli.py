@@ -1,4 +1,4 @@
-"""Command line interface for ArtifactLens.
+"""Command line interface for CurveProtocol.
 
 The CLI exposes the full workflow as subcommands built on the standard library
 ``argparse``:
@@ -20,27 +20,27 @@ import sys
 from pathlib import Path
 from typing import List, Optional, Tuple
 
-from artifactlens import __version__
-from artifactlens.coverage import compute_coverage, grade
-from artifactlens.dossier import build_dossier, render_dossier
-from artifactlens.graph import GraphError, ancestry, build_graph, find_leaves, find_roots
-from artifactlens.io import (
+from curveprotocol import __version__
+from curveprotocol.coverage import compute_coverage, grade
+from curveprotocol.dossier import build_dossier, render_dossier
+from curveprotocol.graph import GraphError, ancestry, build_graph, find_leaves, find_roots
+from curveprotocol.io import (
     load_graph_document,
     load_records,
     parse_artifacts,
     parse_transformations,
     write_json,
 )
-from artifactlens.model import Artifact, LineageGraph, Transformation
+from curveprotocol.model import Artifact, LineageGraph, Transformation
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="artifactlens",
+        prog="curveprotocol",
         description="Agent output provenance explorer.",
     )
     parser.add_argument(
-        "--version", action="version", version=f"artifactlens {__version__}"
+        "--version", action="version", version=f"curveprotocol {__version__}"
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -169,7 +169,7 @@ def _cmd_dossier(args: argparse.Namespace) -> int:
     dossier = build_dossier(graph)
     rendered = render_dossier(dossier, graph, fmt=args.format)
     if args.out:
-        from artifactlens.io import write_text
+        from curveprotocol.io import write_text
         write_text(args.out, rendered + "\n")
         print(f"wrote dossier -> {args.out}")
     else:

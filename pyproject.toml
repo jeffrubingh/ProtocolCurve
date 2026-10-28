@@ -3,13 +3,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "artifactlens"
+name = "curveprotocol"
 version = "1.0.0"
 description = "Agent output provenance explorer: lineage graphs, coverage, and dossier reports."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-authors = [{ name = "ArtifactLens" }]
+authors = [{ name = "CurveProtocol" }]
 keywords = ["provenance", "lineage", "agents", "audit", "dossier"]
 classifiers = [
     "Programming Language :: Python :: 3.11",
@@ -19,11 +19,11 @@ classifiers = [
 ]
 
 [project.urls]
-Documentation = "https://example.com/artifactlens/docs"
-Source = "https://example.com/artifactlens"
+Documentation = "https://example.com/curveprotocol/docs"
+Source = "https://example.com/curveprotocol"
 
 [project.scripts]
-artifactlens = "artifactlens.cli:main"
+curveprotocol = "curveprotocol.cli:main"
 
 [tool.setuptools]
-packages = ["artifactlens"]
+packages = ["curveprotocol"]

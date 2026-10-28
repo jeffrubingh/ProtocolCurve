@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 
-namespace ArtifactLens.Runtime;
+namespace CurveProtocol.Runtime;
 
 /// <summary>
 /// A single node in the provenance graph. Mirrors the Python
-/// <c>artifactlens.model.Artifact</c> value object.
+/// <c>curveprotocol.model.Artifact</c> value object.
 /// </summary>
 public sealed record Artifact
 {
@@ -32,7 +32,7 @@ public sealed record Artifact
 
 /// <summary>
 /// A directed transformation edge. Mirrors the Python
-/// <c>artifactlens.model.Transformation</c> value object.
+/// <c>curveprotocol.model.Transformation</c> value object.
 /// </summary>
 public sealed record Transformation
 {

@@ -1,4 +1,4 @@
-"""Core data model for ArtifactLens.
+"""Core data model for CurveProtocol.
 
 The model layer defines the immutable value objects that flow through the
 pipeline: :class:`Artifact` (a node in the provenance graph),
@@ -55,7 +55,7 @@ class Artifact:
     label:
         Human readable name shown in reports.
     content_hash:
-        Optional digest of the artifact body. When absent, ArtifactLens treats
+        Optional digest of the artifact body. When absent, CurveProtocol treats
         the artifact as *unverified* which lowers its provenance score.
     produced_by:
         Optional agent or actor identifier that emitted the artifact.
@@ -145,7 +145,7 @@ class Transformation:
 
     A transformation captures a single agent step. It fans in from one or more
     input artifacts and fans out to one or more output artifacts. Modelling
-    both sides as lists lets ArtifactLens represent merges (many inputs) and
+    both sides as lists lets CurveProtocol represent merges (many inputs) and
     splits (many outputs) without special cases.
 
     Attributes
@@ -231,7 +231,7 @@ class LineageGraph:
 
     The graph stores artifacts keyed by id and transformations keyed by id,
     plus precomputed adjacency in both directions. Construction happens in
-    :func:`artifactlens.graph.build_graph`, which validates references and
+    :func:`curveprotocol.graph.build_graph`, which validates references and
     guarantees the maps are consistent.
     """
 
@@ -301,7 +301,7 @@ class CoverageReport:
     dangling_ids:
         Non-root artifacts with no producing transformation.
     coverage_score:
-        Weighted score in ``[0, 1]``; see :mod:`artifactlens.coverage`.
+        Weighted score in ``[0, 1]``; see :mod:`curveprotocol.coverage`.
     """
 
     total_artifacts: int
@@ -331,7 +331,7 @@ class CoverageReport:
 
 @dataclass(frozen=True)
 class Dossier:
-    """The complete report bundle produced by ArtifactLens."""
+    """The complete report bundle produced by CurveProtocol."""
 
     graph_digest: str
     roots: Tuple[str, ...]

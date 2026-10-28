@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" width="420" height="300" role="img" aria-label="ArtifactLens coverage score composition">
-  <title>ArtifactLens coverage score composition</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" width="420" height="300" role="img" aria-label="CurveProtocol coverage score composition">
+  <title>CurveProtocol coverage score composition</title>
   <desc>How the provenance coverage score is composed: connectivity at weight 0.30, rootedness at 0.30, verification at 0.25, and mean transformation confidence at 0.15, combining into one weighted score that maps to a letter grade from A to F.</desc>
   <defs>
     <linearGradient id="fill" x1="0" y1="0" x2="1" y2="0">
